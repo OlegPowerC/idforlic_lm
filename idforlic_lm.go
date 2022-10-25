@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"runtime"
+	"strings"
 )
 
 const (
@@ -28,11 +29,14 @@ func linuxGetID() (linuxId string, linuxIdErr error) {
 		return "", LinuxIDFileErr
 	}
 	defer LinuxIDFile.Close()
-	ID, idReadErr := ioutil.ReadAll(LinuxIDFile)
+	IDb, idReadErr := ioutil.ReadAll(LinuxIDFile)
+	ID := string(IDb)
+	ID = strings.Replace(ID, "\n", "", -1)
+	ID = strings.Replace(ID, "\r", "", -1)
 	if idReadErr != nil {
 		return "", idReadErr
 	}
-	return string(ID), nil
+	return ID, nil
 }
 
 func GetID() (string, error) {
