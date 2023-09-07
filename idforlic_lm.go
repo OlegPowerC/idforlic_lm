@@ -2,6 +2,7 @@ package idforlic_lm
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"runtime"
@@ -45,5 +46,5 @@ func GetID() (string, error) {
 		return linuxGetID()
 		break
 	}
-	return "", errors.New("Unknown OS")
+	return "", fmt.Errorf("Unknown OS: %s", runtime.GOOS)
 }
